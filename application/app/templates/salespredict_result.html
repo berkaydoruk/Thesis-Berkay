@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Prediction Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/salespredict_result.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Sales Prediction Results</h2>
+
+        <!-- Verileri Tablo Olarak Göster -->
+        <h4>Data Overview</h4>
+        <div class="table-responsive">
+            {{ final_data|safe }}
+        </div>
+
+        <h4>Model Performance Metrics</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>RMSE</td>
+                    <td>{{ metrics['rmse'] }}</td>
+                </tr>
+                <tr>
+                    <td>R2</td>
+                    <td>{{ metrics['r2'] }}</td>
+                </tr>
+                <tr>
+                    <td>MAPE</td>
+                    <td>{{ metrics['mape'] }}</td>
+                </tr>
+                <tr>
+                    <td>MAE</td>
+                    <td>{{ metrics['mae'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('salespredict.salesPredict') }}" class="btn btn-primary">Back to Prediction Page</a>
+    </div>
+</body>
+</html>

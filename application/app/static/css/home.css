@@ -1,0 +1,109 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f7f9fb;
+    color: #333;
+    line-height: 1.7;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* Header / Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #006d77, #83c5be); /* Deniz mavisi degrade */
+    color: #fff;
+    padding: 8rem 0;
+    text-align: center;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.hero-title {
+    font-size: 3.8rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 1.2;
+}
+
+.hero-subheading {
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* Content Section */
+.content-section {
+    background-color: #fff;
+    padding: 4rem 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-top: -50px;
+}
+
+.content-section h2 {
+    font-size: 2.8rem;
+    color: #006d77; /* Vurgulu başlık rengi */
+    font-weight: 600;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.content-section p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 2px solid #444;
+    margin-top: 3rem;
+}
+
+footer p {
+    font-size: 1rem;
+}
+
+/* Hover Effect */
+.content-section:hover {
+    transform: translateY(-10px);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 768px) {
+    .hero-title {
+        font-size: 2.8rem;
+    }
+
+    .hero-subheading {
+        font-size: 1.2rem;
+    }
+
+    .content-section h2 {
+        font-size: 2.2rem;
+    }
+
+    .content-section p {
+        font-size: 1rem;
+    }
+}
