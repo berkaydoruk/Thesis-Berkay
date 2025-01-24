@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Segmentation Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/salespredict.css') }}">
+    <style>
+        .chart-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .description {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Prediction Result</h2>
+
+        <!-- Tahmin Sonucu -->
+        {% if result %}
+            <div class="alert alert-info">
+                This prediction estimates the possible number of units that may be purchased in the next order based on the given gender and age.
+                <h4>{{ result }}</h4>
+            </div>
+        {% endif %}
+
+        <!-- Metrics -->
+        <hr>
+        <h3>Model Metrics</h3>
+        <p class="description">The following metrics summarize the model performance based on the provided data.</p>
+        {% if metrics %}
+            <ul>
+                {% for key, value in metrics.items() %}
+                    <li><strong>{{ key }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No metrics available.</p>
+        {% endif %}
+
+        <!-- Satış Grafiği -->
+        <hr>
+        <h3>Sales Chart</h3>
+        <p class="description">This chart represents sales distribution across different age and gender groups. This groups has been found with clustering algorithms. It is spesificly chosen by the buissnes' datas.</p>
+        <div class="chart-container">
+            {% if chart_url %}
+                <img src="{{ chart_url }}" alt="Sales Chart">
+            {% else %}
+                <p>No sales data available for the selected categories.</p>
+            {% endif %}
+        </div>
+
+        <!-- Yeni Tahmin Formu -->
+        <hr>
+        <h3>Predict Another</h3>
+        <p class="description">Enter the required details to make a new prediction based on age and gender.</p>
+        <div class="form-container">
+            <form action="{{ url_for('customersegmentation.predict_customerseg') }}" method="POST">
+                <label for="age">Select Age Range:</label>
+                <select id="age" name="age" required>
+                    <option value="" disabled selected>Select Age Range</option>
+                    <option value="0">0-20</option>
+                    <option value="1">21-30</option>
+                    <option value="2">31-40</option>
+                    <option value="3">41-50</option>
+                    <option value="4">51-60</option>
+                    <option value="5">61-70</option>
+                    <option value="6">71+</option>
+                </select><br><br>
+
+                <label for="gender">Select Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="" disabled selected>Select Gender</option>
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                </select><br><br>
+
+                <button type="submit" class="btn">Predict</button>
+            </form>
+        </div>
+
+        <hr>
+        <form action="{{ url_for('customersegmentation.customerSeg') }}" method="get">
+            <button type="submit" class="btn">Back to Upload Page</button>
+        </form>
+    </div>
+</body>
+</html>

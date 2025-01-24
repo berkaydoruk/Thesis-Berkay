@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Sales Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/home.css">
+    <style>
+        .nav-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            padding: 15px 30px; /* Boyutları büyüttük */
+            font-size: 20px; /* Yazı tipi büyüklüğünü artırdık */
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Butona gölge ekledik */
+            transition: transform 0.2s, background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: #ff8533;
+            transform: scale(1.05); /* Üzerine gelindiğinde büyütme efekti */
+        }
+    </style>
+</head>
+<body>
+    <header class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">E-Commerce Sales Prediction & Analysis</h1>
+            <p class="hero-subheading">Enhancing Operational Efficiency with Data-Driven Insights</p>
+            <a href="{{ url_for('home.navigation') }}" class="nav-button">Predictions and Clustering</a>
+        </div>
+    </header>
+    <section id="introduction" class="content-section">
+        <div class="container">
+            <h2 class="section-title">Introduction</h2>
+            <p>
+                E-commerce has witnessed rapid growth in the past decade, creating both opportunities and challenges for businesses. With the increasing complexity of the market, understanding customer behavior and predicting future demand has never been more crucial. 
+            </p>
+            <p>
+                By using data-driven strategies, businesses can make informed decisions that improve efficiency and profitability. Our solution provides actionable insights for companies striving to stay ahead in the competitive e-commerce landscape.
+            </p>
+            <p>
+                With a focus on accuracy and practical application, our machine learning models offer valuable predictions that help businesses plan better for the future.
+            </p>
+        </div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 E-Commerce Sales Prediction</p>
+        </div>
+    </footer>
+</body>
+</html>

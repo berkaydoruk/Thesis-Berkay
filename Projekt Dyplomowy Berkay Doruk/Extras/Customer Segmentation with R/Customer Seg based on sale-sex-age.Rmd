@@ -1,0 +1,137 @@
+
+```{r}
+library(readxl)  
+library(stringi)  
+
+data <- read_excel("month5_cleaned.xlsx")
+
+
+head(data)
+```
+
+
+```{r}
+colnames(data)
+```
+
+```{r}
+str(data)
+```
+
+```{r}
+unique(data$Yas)
+```
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+summary(data)
+```
+
+```{r}
+summary(data)
+```
+
+```{r}
+data <- data %>%
+  mutate(Yas = ifelse(is.na(Yas), "Belirtilmemis", Yas),
+         Cinsiyet = ifelse(is.na(Cinsiyet), "Belirtilmemis", Cinsiyet))
+
+data <- data %>%
+  mutate(
+    Yas_Num = case_when(
+      Yas == "0-20" ~ 1,
+      Yas == "21-30" ~ 2,
+      Yas == "31-40" ~ 3,
+      Yas == "41-50" ~ 4,
+      Yas == "51-60" ~ 5,
+      Yas == "61-70" ~ 6,
+      Yas == "71+" ~ 7,
+      Yas == "Belirtilmemis" ~ NA_real_
+    ),
+    Cinsiyet_Num = case_when(
+      Cinsiyet == "Kadin" ~ 1,
+      Cinsiyet == "Erkek" ~ 2,
+      Cinsiyet == "Belirtilmemis" ~ NA_real_
+    )
+  )
+
+segmentation_data <- data %>%
+  select(Adet, Yas_Num, Cinsiyet_Num) %>%
+  na.omit()
+
+summary(segmentation_data)
+```
+
+```{r}
+library(factoextra)
+
+segmentation_scaled <- scale(segmentation_data)
+
+fviz_nbclust(segmentation_scaled, kmeans, method = "wss") +
+  ggtitle("Elbow Method for Optimal Clusters")
+```
+
+```{r}
+set.seed(42)
+kmeans_result <- kmeans(segmentation_scaled, centers = 4, nstart = 25)
+
+segmentation_data$Cluster <- as.factor(kmeans_result$cluster)
+
+fviz_cluster(kmeans_result, data = segmentation_scaled,
+             geom = "point",
+             ellipse.type = "convex",
+             ggtheme = theme_minimal(),
+             main = "K-Means Clustering (4 Clusters)")
+```
+
+```{r}
+cluster_summary <- segmentation_data %>%
+  group_by(Cluster) %>%
+  summarise(
+    Avg_Adet = mean(Adet),
+    Avg_Yas_Num = mean(Yas_Num),
+    Avg_Cinsiyet_Num = mean(Cinsiyet_Num),
+    Count = n()
+  )
+
+print(cluster_summary)
+```
+
+```{r}
+cluster_summary <- segmentation_data %>%
+  group_by(Cluster) %>%
+  summarise(
+    Count = n(),
+    Avg_Adet = mean(Adet),
+    Avg_Yas_Num = mean(Yas_Num),
+    Avg_Cinsiyet_Num = mean(Cinsiyet_Num)
+  ) %>%
+  mutate(
+    Avg_Yas_Num = round(Avg_Yas_Num), 
+    Avg_Yas_Group = case_when(
+      Avg_Yas_Num < 2 ~ "0-20",
+      Avg_Yas_Num < 3 ~ "21-30",
+      Avg_Yas_Num < 4 ~ "31-40",
+      Avg_Yas_Num < 5 ~ "41-50",
+      Avg_Yas_Num < 6 ~ "51-60",
+      Avg_Yas_Num < 7 ~ "61-70",
+      TRUE ~ "71+"
+    ),
+    Gender = case_when(
+      Avg_Cinsiyet_Num < 1.5 ~ "Women",
+      Avg_Cinsiyet_Num >= 1.5 ~ "Men",
+      TRUE ~ "Unknown"
+    ),
+    Cluster_Label = paste0(Cluster, " - ", Avg_Yas_Group, " (", Gender, ")")
+  )
+
+ggplot(cluster_summary, aes(x = Avg_Yas_Group, y = Count, fill = Gender)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_fill_manual(values = c("Women" = "red", "Men" = "blue")) +
+  geom_text(aes(label = round(Avg_Adet, 2)), position = position_dodge(width = 0.9), vjust = -0.5, size = 3.5) +
+  labs(title = "Cluster Summary", x = "Age Groups", y = "Count") +
+  theme_minimal()
+```

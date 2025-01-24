@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return Prediction Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/salespredict.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Return Prediction Results</h2>
+
+        <!-- Flash messages for feedback -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Predicted Returns -->
+        <div class="predicted-value">
+            Predicted returns out of 10,000 orders: <strong>{{ predicted_returns }}</strong>
+        </div>
+
+        <!-- Model Metrics -->
+        <h3>Model Metrics</h3>
+        {% if metrics %}
+            <ul class="metrics-list">
+                {% for key, value in metrics.items() %}
+                    <li><strong>{{ key }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="text-align: center; color: red;">No metrics available.</p>
+        {% endif %}
+
+        <!-- Prediction Breakdown Table -->
+        <h3>Prediction Breakdown</h3>
+        This table shows the statistical distribution of return reasons based on the predicted returns of 10,000 orders.
+        {% if result_df %}
+            <div class="result-table-container">
+                <table class="result-table">
+                    {{ result_df | safe }}
+                </table>
+            </div>
+        {% else %}
+            <p style="text-align: center; color: red;">No prediction results available.</p>
+        {% endif %}
+
+        <!-- Return Reasons Chart -->
+        <h3>Return Reasons by Category</h3>
+        This chart shows the current clustered return reasons based on the real data.
+        {% if chart_url %}
+            <div class="chart-container">
+                <img src="{{ chart_url }}" alt="Return Reasons Chart" class="chart-container img">
+            </div>
+        {% else %}
+            <p style="text-align: center; color: red;">No chart available.</p>
+        {% endif %}
+
+        <form action="{{ url_for('returns_bp.returnsPredict') }}" method="get">
+            <button type="submit" class="btn">Upload More Data</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Return Data</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/salespredict.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Return Data Files</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <p style="color: red;">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('returns_bp.returnsPredict') }}" method="POST" enctype="multipart/form-data">
+            <label for="file1">Upload Prediction Data (Excel):</label>
+            <input type="file" name="file1" required><br><br>
+
+            <label for="file2">Upload Clustering Data (Excel):</label>
+            <input type="file" name="file2" required><br><br>
+
+            <button type="submit" class="btn">Upload and Process</button>
+            <button class="btn" onclick="location.href='/'" style="margin-top: 10px;">Go to Home</button>
+        </form>
+    </div>
+</body>
+</html>

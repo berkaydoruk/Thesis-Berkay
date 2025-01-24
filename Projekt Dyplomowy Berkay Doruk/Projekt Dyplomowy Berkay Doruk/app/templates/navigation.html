@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Page</title>
+    <link rel="stylesheet" href="static/css/home.css">
+    <style>
+        .nav-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+        .nav-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            font-size: 18px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .nav-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-container">
+        <h1>Choose an Option</h1>
+        <a href="/salespredict" class="nav-btn">Sales Prediction</a>
+        <a href="/customersegmentation" class="nav-btn">Customer Segmentation</a>
+        <a href="/returns" class="nav-btn">Returns</a>
+        <br>
+        <br>
+        <button class="nav-btn" onclick="location.href='/'" style="margin-top: 10px;">Go to Home</button>
+    </div>
+</body>
+</html>

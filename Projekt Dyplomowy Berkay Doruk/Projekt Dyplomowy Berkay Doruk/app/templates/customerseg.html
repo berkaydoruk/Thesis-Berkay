@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Segmentation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/salespredict.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Customer Segmentation App</h2>
+        <form action="{{ url_for('customersegmentation.customerSeg') }}" method="POST" enctype="multipart/form-data">
+            <label for="file1">Upload Sales Data File (Excel):</label>
+            <input type="file" name="file1" accept=".xlsx" required><br><br>
+
+            <button type="submit" class="btn">Upload and Train Model</button>
+            <button class="btn" onclick="location.href='/'" style="margin-top: 10px;">Go to Home</button>
+        </form>
+
+        <!-- Flash message if any error occurs -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
